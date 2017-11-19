@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::resource('campaigns', 'CampaignController');
+Route::resource('languages', 'LanguageController');
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
