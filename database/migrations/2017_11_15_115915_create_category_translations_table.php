@@ -17,7 +17,7 @@ class CreateCategoryTranslationsTable extends Migration
             $table->increments('id');
             $table->integer('category_id');
             $table->string('title');
-            $table->string('locale-FK');
+            $table->string('locale');
             $table->text('extra');
 
             $table->timestamps();
