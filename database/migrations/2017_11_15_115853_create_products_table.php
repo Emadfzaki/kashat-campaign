@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->integer('category_id');
             $table->integer('vendor_id');
-            $table->text('extra');
+            $table->text('extra')->nullable();
             $table->integer('created_by');
             $table->integer('updated_by');
 

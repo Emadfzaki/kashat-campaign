@@ -23,7 +23,7 @@ class CreateCampaignsTable extends Migration
             $table->enum('status', ['pending', 'approved', 'active', 'deactivated']);
             $table->integer('approved_by')->nullable();
             $table->string('target_country');
-            $table->string('locale-FK');
+            $table->string('locale');
             $table->text('extra');
             $table->integer('created_by');
             $table->integer('updated_by');

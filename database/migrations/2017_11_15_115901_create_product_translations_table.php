@@ -15,10 +15,10 @@ class CreateProductTranslationsTable extends Migration
     {
         Schema::create('product_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id');
+            $table->integer('product_id');
             $table->string('title');
             $table->string('locale');
-            $table->text('extra');
+            $table->text('extra')->nullable();
 
             $table->timestamps();
         });
