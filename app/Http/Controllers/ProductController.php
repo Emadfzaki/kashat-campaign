@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\ProductTranslation;
+use App\MultiMedia;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests;
 use Validator;
@@ -62,6 +65,24 @@ class ProductController extends Controller
             $product_translation['locale'] = $request['locale'];
             $product_translation['extra'] = $request['extra_product_tr'];
 
+            if($request['files']){
+                foreach ($request['files'] as $key => $file) {
+
+                    $file_path = $file->store('products_files');
+                    $file_type = Storage::mimeType($file_path);
+
+                    $multimedia = new MultiMedia();
+                    $multimedia['content_type'] = 'product';
+                    $multimedia['content_id'] = $product['id'];
+
+                    $multimedia['file_location'] = $file_path;
+                    $multimedia['file_type'] = $file_type;
+                    $multimedia['title'] = $request['file_title'][$key];
+
+                    $multimedia->save();
+                }
+            }
+
             if($product_translation->save()){
                 $response = [
                     'msg' => 'Product created successfully',
@@ -84,14 +105,16 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($product_trans_id)
+    public function show($product_id)
     {
-        $product_trans = ProductTranslation::find($product_trans_id);
+        $product = Product::find($product_id);
 
-        if($product_trans){
+        if($product){
+            $product['multimedia'] = $product->multimedia();
+            $product['translation'] = $product->translations();
             $response = [
                 'msg' => 'Product found',
-                'product' => $product_trans
+                'product' => $product
             ];
             return response()->json($response, 200);
         }
@@ -149,11 +172,13 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy($product_trans_id)
+    public function destroy($product_id)
     {
-        $product_trans = ProductTranslation::find($product_trans_id);
-        if($product_trans){
-            if ($product_trans->delete()){
+        $product = Product::find($product_id);
+        if($product){
+            if ($product->delete()){
+                ProductTranslation::where('product_id', $product_id)->delete();
+                MultiMedia::where('content_id', $product_id)->where('content_type', 'product')->delete();
                 $response = [
                     'msg' => 'Product deleted successfully',
                 ];

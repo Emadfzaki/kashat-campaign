@@ -15,9 +15,11 @@ class CreateMultiMediaTable extends Migration
     {
         Schema::create('multi_media', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('media_id');
             $table->enum('content_type', ['campaign', 'product', 'category']);
             $table->integer('content_id');
+            $table->string('file_location');
+            $table->string('file_type');
+            $table->string('title');
 
             $table->timestamps();
         });

@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 Route::resource('campaigns', 'CampaignController');
 Route::resource('product', 'ProductController');
 Route::resource('languages', 'LanguageController');
+Route::resource('multimedia', 'MultiMediaController');
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
