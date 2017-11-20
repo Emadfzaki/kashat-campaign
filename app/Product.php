@@ -11,7 +11,7 @@ class Product extends Model
      */
     public function multimedia()
     {
-        return $this->hasMany('App\MultiMedia');
+        return $this->hasMany('App\MultiMedia', 'content_id')->where("content_type", "product")->get();
     }
 
     /**
@@ -19,7 +19,7 @@ class Product extends Model
      */
     public function translations()
     {
-        return $this->hasMany('App\ProductTranslation');
+        return $this->hasMany('App\ProductTranslation')->get();
     }
 
     /**

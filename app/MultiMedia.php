@@ -7,14 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class MultiMedia extends Model
 {
     /**
-     * Get the media that owns the multimedia.
-     */
-    public function media()
-    {
-        return $this->belongsTo('App\Media');
-    }
-
-    /**
      * Get the campaign that owns the multimedia.
      */
     public function campaign()
